@@ -1,6 +1,7 @@
 services:
   casdoor:
     image: casbin/casdoor:latest
+    container_name: casdoor
     restart: unless-stopped
     depends_on:
       mysql:
@@ -24,6 +25,7 @@ services:
 
   mysql:
     image: mysql:8.0
+    container_name: casdoor_mysql
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:-123}"
@@ -49,6 +51,7 @@ services:
 
   redis:
     image: redis:7-alpine
+    container_name: casdoor_redis
     restart: unless-stopped
     command: redis-server --appendonly yes
     volumes:
