@@ -66,5 +66,5 @@ networks:
     driver: bridge
 
 volumes:
-  casdoor_mysql_data:
-  casdoor_redis_data:
+  mysql_data:
+  redis_data:
