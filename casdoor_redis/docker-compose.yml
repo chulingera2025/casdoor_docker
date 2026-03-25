@@ -1,0 +1,70 @@
+services:
+  casdoor:
+    image: casbin/casdoor:latest
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      RUNNING_IN_DOCKER: "true"
+      driverName: "mysql"
+      dataSourceName: "root:${MYSQL_ROOT_PASSWORD:-123}@tcp(mysql:3306)/"
+      dbName: "${MYSQL_DATABASE:-casdoor}"
+      runmode: "prod"
+      redisEndpoint: "redis:6379"
+      origin: "${CASDOOR_ORIGIN}"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./conf:/conf:ro
+    networks:
+      - casdoor
+
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:-123}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE:-casdoor}"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - casdoor
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - casdoor
+
+networks:
+  casdoor:
+    driver: bridge
+
+volumes:
+  casdoor_mysql_data:
+  casdoor_redis_data:
