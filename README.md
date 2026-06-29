@@ -17,6 +17,7 @@ CASDOOR_ORIGIN=https://auth.example.com
 MYSQL_ROOT_PASSWORD=your_strong_password
 MYSQL_DATABASE=casdoor
 ```
+> Generate a strong MySQL password: `openssl rand -hex 32`
 
 Then start the stack:
 
@@ -32,7 +33,7 @@ A `casdoor.conf` is included with HTTP→HTTPS redirect and HTTPS reverse proxy,
 
 Usage:
 
-1. Edit `casdoor.conf` — replace `server_name` with your domain, fill in real SSL certificate paths (search for `← 替换为真实路径`)
+1. Edit `casdoor.conf` — replace `server_name` with your domain, fill in real SSL certificate paths
 2. Deploy:
 
 ```bash

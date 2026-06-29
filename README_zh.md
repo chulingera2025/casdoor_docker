@@ -17,6 +17,7 @@ CASDOOR_ORIGIN=https://auth.example.com
 MYSQL_ROOT_PASSWORD=your_strong_password
 MYSQL_DATABASE=casdoor
 ```
+> 生成强密码：`openssl rand -hex 32`
 
 然后启动：
 
@@ -32,7 +33,7 @@ docker compose up -d
 
 使用方法：
 
-1. 编辑 `casdoor.conf`，替换 `server_name` 为你的域名，填入真实的 SSL 证书路径（搜索 `← 替换为真实路径`）
+1. 编辑 `casdoor.conf`，替换 `server_name` 为你的域名，填入真实的 SSL 证书路径
 2. 部署并启用：
 
 ```bash
