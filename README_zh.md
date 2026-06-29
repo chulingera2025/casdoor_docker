@@ -27,6 +27,8 @@ docker compose up -d
 
 启动完成后，通过你配置的域名或服务器 `8000` 端口访问 Casdoor。
 
+> `conf/app.conf` 中 `runmode` 可选 `dev` / `prod` / `test`。`docker-compose.yml` 已通过环境变量覆盖为 `prod`，无需修改。
+
 ## Nginx 反向代理（可选）
 
 项目提供了 `casdoor.conf`，包含 HTTP→HTTPS 重定向和 HTTPS 反代，仅使用 HTTP/1.1。

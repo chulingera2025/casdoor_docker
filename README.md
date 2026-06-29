@@ -27,6 +27,8 @@ docker compose up -d
 
 After startup, access Casdoor from your configured domain or from port `8000` on the server.
 
+> `runmode` in `conf/app.conf` accepts `dev` / `prod` / `test`. `docker-compose.yml` already overrides it to `prod` via environment variable.
+
 ## Nginx Reverse Proxy (optional)
 
 A `casdoor.conf` is included with HTTP→HTTPS redirect and HTTPS reverse proxy, using HTTP/1.1 only.
