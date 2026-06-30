@@ -17,7 +17,7 @@ services:
       redisEndpoint: "redis:6379"
       origin: "${CASDOOR_ORIGIN}"
     ports:
-      - "8000:8000"
+      - "${CASDOOR_PORT:-8000}:8000"
     volumes:
       - ./conf:/conf:ro
     networks:
