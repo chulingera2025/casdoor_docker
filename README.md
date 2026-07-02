@@ -44,6 +44,31 @@ sudo ln -s /etc/nginx/sites-available/casdoor.conf /etc/nginx/sites-enabled/casd
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
+## Troubleshooting
+
+### Local file storage permission denied
+
+If you configured Casdoor Storage to use the **Local** provider, file uploads may fail with an error like:
+
+```
+Casdoor fails to create folder: "/files/resource/built-in/admin" for local file system storage provider: mkdir /files/resource: permission denied. Make sure Casdoor process has correct permission to create/access it, or you can create it manually in advance.
+```
+
+This happens because the container runs as UID 1000 and cannot write to the `files/` directory created by Docker.
+
+**Solution:** Change ownership and permissions on the `files/` directory (auto-created next to `docker-compose.yml`):
+
+```bash
+sudo chown -R 1000:1000 files
+sudo chmod -R 755 files
+```
+
+After this, restart the stack:
+
+```bash
+docker compose down && docker compose up -d
+```
+
 ## Links
 
 - Official Casdoor repository: https://github.com/casdoor/casdoor
