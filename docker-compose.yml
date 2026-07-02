@@ -20,6 +20,7 @@ services:
       - "${CASDOOR_PORT:-8000}:8000"
     volumes:
       - ./conf:/conf:ro
+      - ./files:/files
     networks:
       - casdoor
 
